@@ -1,0 +1,11 @@
+generator client {
+  provider        = "prisma-client-js"
+  provider        = "prisma-client"
+  output          = "./.client"
+  runtime = "deno"
+}
+
+datasource db {
+  provider = "mariadb"
+  url      = env("DATABASE_URL")
+}
