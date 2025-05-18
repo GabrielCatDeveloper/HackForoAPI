@@ -1,0 +1,19 @@
+services:
+  dev_mariem-cards-devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mariem-cards_devcontainer
+    environment:
+      - IsLocalSide=true
+    networks:
+      - backend_devcontainer
+    volumes:
+      - ../:/workspace:rw
+    command: sleep infinity
+
+
+networks:
+  backend_devcontainer:
+    driver: bridge
+    name: backend_devcontainer
