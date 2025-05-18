@@ -1,9 +1,9 @@
 services:
-  dev_mariem-cards-devcontainer:
+  dev_hack-foro-devcontainer:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mariem-cards_devcontainer
+    container_name: hack-foro_devcontainer
     environment:
       - IsLocalSide=true
     networks:

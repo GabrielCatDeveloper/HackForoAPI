@@ -1,9 +1,9 @@
 {
-    "name": "mariem-cards-Dev-Container",
+    "name": "hack-foro-Dev-Container",
     "dockerComposeFile": [
         "./docker-compose.yml"
     ],
-    "service": "dev_mariem-cards-devcontainer",
+    "service": "dev_hack-foro-devcontainer",
     "workspaceFolder": "/workspace",
     "customizations": {
         "vscode": {
