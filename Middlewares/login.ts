@@ -16,10 +16,7 @@ export class LoginMiddlewares extends BasicMiddlewares{
         return [];
     }
 
-    public get Create(){
-        return [];
-    }
-
+    
     public get Delete(){
         return [];
     }

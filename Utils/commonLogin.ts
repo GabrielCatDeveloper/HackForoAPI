@@ -3,10 +3,10 @@
 const LoginCookie='token';
 
 
-export async function SetToken(userId:string,res:any){
+export async function SetToken(data:any,res:any){
 
     let options:any= {
-            sameSite:'Strict',
+            sameSite:'None',
             httpOnly:true,
             maxAge:1000*60*60*24*100,
             secure:true

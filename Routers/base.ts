@@ -7,11 +7,17 @@ export class BaseRouter {
 
     
     constructor(
-        public readonly UrlRel:string,
-        private router:any,
+        public readonly UrlRel:string, 
         public readonly Middlewares:BaseMiddlewares,
-        public readonly Controller:BaseController
-    ){this.Configure(router);}
+        public readonly Controller:BaseController,
+        private router?:any,
+    ){
+        if(!this.UrlRel.startsWith('/'))
+        {
+            this.UrlRel='/'+this.UrlRel;
+        }
+        this.Configure(router);
+    }
     Configure(router?:any){
 
         if(router){
@@ -25,7 +31,7 @@ export class BaseRouter {
     }
 
     public get Router(){
-        return this.router;
+        return this.router!;
     }
 
 
