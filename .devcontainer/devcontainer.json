@@ -11,7 +11,9 @@
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
                 "ms-azuretools.vscode-docker",
-                "eamodio.gitlens"
+                "eamodio.gitlens",
+                "denoland.vscode-deno",
+                "ms-azuretools.vscode-docker"
             ],
             "settings": {
                 "workbench.colorTheme": "Kimbie Dark"

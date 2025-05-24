@@ -1,0 +1,15 @@
+{
+  "tasks": {
+    "start":"deno run -A app.ts",
+    "gen":"deno run -A npm:prisma@latest generate --schema=./Prisma/prisma.schema"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1",
+    "express": "npm:express@^5.1.0",
+    "prisma": "npm:prisma@^6.8.2",
+    "simple-git": "npm:simple-git@^3.27.0",
+    "zod": "npm:zod@^3.25.28",
+    "prisma/client":"./Prisma/.client/index.ts"
+  },
+  "nodeModulesDir": "auto"
+}
