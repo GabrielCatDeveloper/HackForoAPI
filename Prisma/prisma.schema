@@ -10,7 +10,7 @@ datasource db {
 }
 
 
-model Forum {
+model Campaign {
 
   id Int @id @default(autoincrement())
   //si es null no se pueden añadir
@@ -35,8 +35,8 @@ model User {
   topics Topic[]
   replies Reply[]
   replieViews ReplyView[]
-  forumId Int 
-  forum Forum @relation(fields:[forumId],references:[id],onDelete:Cascade)
+  campaignId Int 
+  campaign Campaign @relation(fields:[campaignId],references:[id],onDelete:Cascade)
   messagesSended Message[] @relation(name:"messagesSended")
   messagesRecived Message[] @relation(name:"messagesRecived")
   @@map("users")
@@ -50,8 +50,8 @@ model Topic {
   deletedAt DateTime?
   userId String 
   user User @relation(fields:[userId],references:[nickname],onDelete:Cascade)
-  forumId Int 
-  forum Forum @relation(fields:[forumId],references:[id],onDelete:Cascade)
+  campaignId Int 
+  campaign Campaign @relation(fields:[campaignId],references:[id],onDelete:Cascade)
   name String
   replies Reply[]
   
@@ -83,7 +83,7 @@ model ReplyView {
   createdAt DateTime @default(now())
   replyUpdatedAt DateTime
   userId String 
-  viewer User @relation(fields:[userId],references:[nickname],onDelete:Cascade)
+  user User @relation(fields:[userId],references:[nickname],onDelete:Cascade)
   replyId Int 
   reply Reply @relation(fields:[replyId],references:[id],onDelete:Cascade)
 

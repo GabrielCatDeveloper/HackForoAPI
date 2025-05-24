@@ -2,7 +2,7 @@ import "jsr:@std/dotenv/load";
 import { create, verify, getNumericDate } from "djwt";
 import {type Request,type Response} from "express";
 const LoginCookie='token';
-type TokenData={nickname:string,isAdmin:boolean,forumId:number};
+type TokenData={nickname:string,isAdmin:boolean,campaignId:number};
 const JWT_ALGORITHM = "HS256";
 export async function SetToken(data:TokenData,res:Response){
     

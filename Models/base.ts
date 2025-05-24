@@ -14,19 +14,19 @@ const Client=new PrismaClient();
 
 export abstract class BaseModel<TId,TData>{
 
-    protected abstract get Schema():z.ZodTypeAny;
-
+    protected abstract get SchemaCreate():z.ZodTypeAny;
+    protected abstract get SchemaUpdate():z.ZodTypeAny;
     protected get Model(){
         return Client[this.constructor.name.toLocaleLowerCase() as any] as unknown as IClient;
     }
 
     public async Check(body:TData):Promise<boolean>{
-        const {error}=await this.Schema.safeParseAsync(body);
+        const {error}=await this.SchemaCreate.safeParseAsync(body);
         return error === undefined;
     }
 
     public async Create(body:TData){
-        const {data}=await this.Schema.safeParseAsync(body);
+        const {data}=await this.SchemaCreate.safeParseAsync(body);
         return await this.Model.create({data});
     }
     public async GetAllById(id?:TId){
@@ -38,7 +38,7 @@ export abstract class BaseModel<TId,TData>{
         return await this.Model.findMany(query);
     }
     public async UpdateById(id:TId,body:TData){
-        const {data}=await this.Schema.safeParseAsync(body);
+        const {data}=await this.SchemaUpdate.safeParseAsync(body);
         return await this.Model.update({where:{id},data});
     }
     public async DeleteById(id:TId){

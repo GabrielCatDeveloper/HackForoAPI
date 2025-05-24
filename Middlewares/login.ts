@@ -9,7 +9,7 @@ export class LoginMiddlewares extends BasicMiddlewares{
 
 
     public get Get(){
-        return -[];
+        return [];
     }
 
     public get Post(){

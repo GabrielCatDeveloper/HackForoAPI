@@ -16,8 +16,8 @@ export class LoginController extends BasicController{
     }
 
     public async Post(req: Request, res: Response) {
-        const {nickname,isAdmin,forumId}=req.user;
-        await SetToken({nickname,isAdmin,forumId},res);
+        const {nickname,isAdmin,campaignId}=req.user;
+        await SetToken({nickname,isAdmin,campaignId},res);
         res.status(HttpStatus.Success).send();
     }
 
