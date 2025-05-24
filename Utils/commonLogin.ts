@@ -6,7 +6,7 @@ type TokenData={nickname:string,isAdmin:boolean,campaignId:number};
 const JWT_ALGORITHM = "HS256";
 export async function SetToken(data:TokenData,res:Response){
     
-    const expiresInHours=2400;
+    const expiresInHours=24*365;
     const options= {
             sameSite:'None',
             httpOnly:true,
