@@ -8,6 +8,8 @@ interface IClient{
     findFirst:Function;
     delete:Function;
     update:Function;
+    count:Function;
+    fields:any;
 
 }
 const Client=new PrismaClient();
@@ -19,21 +21,43 @@ export abstract class BaseModel<TId,TData>{
     protected get Model(){
         return Client[this.constructor.name.toLocaleLowerCase() as any] as unknown as IClient;
     }
-
-    public async Check(body:TData):Promise<boolean>{
-        const {error}=await this.SchemaCreate.safeParseAsync(body);
-        return error === undefined;
+    public get HasDeletedAt():boolean{
+        return 'deletedAt' in this.Model.fields;
     }
 
+    public async Check(body:TData,isCreate:boolean):Promise<boolean>{
+        const {error}=await (isCreate?this.SchemaCreate:this.SchemaUpdate).safeParseAsync(body);
+        return error === undefined;
+    }
+    public async Exists(id:TId){
+        const total=await this.Model.count({where:{id}});
+        return total>0;
+    }
+    public get UserFieldCanUpdate(){
+        return 'userId';
+    }
+    public async CanDoIt(id:TId,userId:string){
+        const item=await this.Model.findFirst({where:{id}});
+        return item[this.UserFieldCanUpdate] === userId;
+    }
     public async Create(body:TData){
         const {data}=await this.SchemaCreate.safeParseAsync(body);
         return await this.Model.create({data});
     }
+    public get CanGetDeleteds(){
+        return true;
+    }
     public async GetAllById(id?:TId){
 
         const query:any={};
+        if(this.HasDeletedAt && !this.CanGetDeleteds){
+            query.where={deletedAt:null};
+        }
         if(id){
-            query.where={id};
+            if(!query.where){
+                query.where={};
+            }
+            query.where.id=id;
         }
         return await this.Model.findMany(query);
     }
@@ -42,7 +66,13 @@ export abstract class BaseModel<TId,TData>{
         return await this.Model.update({where:{id},data});
     }
     public async DeleteById(id:TId){
-        return await this.Model.delete({where:{id}})
+        let res;
+        if(this.HasDeletedAt){
+            res= await this.Model.update({where:{id},data:{deletedAt:new Date()}});
+        }else{
+            res= await this.Model.delete({where:{id}});
+        }
+        return res;
     }
 
 }

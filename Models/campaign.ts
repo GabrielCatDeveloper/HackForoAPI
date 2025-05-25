@@ -12,6 +12,9 @@ export class Campaign extends BaseModel<number,any>{
   protected override get SchemaUpdate(): ZodTypeAny {
     return z.object({});
   }
+  public async CanDoIt(_1:number,_2:string){
+      return false;
+  }
 }
 
 

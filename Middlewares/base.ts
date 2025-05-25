@@ -1,5 +1,7 @@
-import { BaseModel } from "../Models/base";
-import { HttpStatus } from "../Utils/httpStatusCode";
+// deno-lint-ignore-file no-explicit-any
+import { type BaseModel } from "../Models/base.ts";
+import { GetToken } from "../Utils/commonLogin.ts";
+import { HttpStatus } from "../Utils/httpStatusCode.ts";
 
 
 export class BasicMiddlewares{
@@ -28,7 +30,7 @@ export class BaseMiddlewares extends BasicMiddlewares {
 
 
 
-    constructor(public readonly Model:BaseModel){super();}
+    constructor(public readonly Model:BaseModel<any,any>){super();}
 
     public get GetAll(){
         return [this.GetMethod("LoadUser")];
@@ -42,42 +44,71 @@ export class BaseMiddlewares extends BasicMiddlewares {
     public get Post(){
         return [
             this.GetMethod("LoadUser"),
-            this.GetMethod("CheckBody")
+            this.CheckBody(true)
         ];
     }
     public get PutById(){
         return [
             this.GetMethod("LoadUser"),
             this.GetMethod("CheckId"),
-            this.GetMethod("CheckBody")
+            this.CheckBody(false),
+            this.GetMethod("CanDoIt"),
         ];
     }
     public get DeleteById(){
         return [
             this.GetMethod("LoadUser"),
-            this.GetMethod("CheckId")
+            this.GetMethod("CheckId"),
+            this.GetMethod("CanDoIt"),
         ];
     }
 
+    public async CanDoIt(req:any,res:any,next:any){
+        const {userId,isAdmin}=req.user;
+        const {id}=req.params;
+        
+        if(isAdmin || await this.Model.CanDoIt(id,userId)){
+            next()
+        }else{
+            res.status(HttpStatus.Unautoritzed).send();
+        }
+    }
     public async LoadUser(req:any,res:any,next:any){
-        next();
+        const token=await GetToken(req);
+        if(token){
+            req.user=token;
+            next();
+        }else{
+            res.status(HttpStatus.Unautoritzed).send();
+        }
+        
+    }
+
+    public get IdChecker():(id:any)=>boolean{
+        return (id:number)=>id!=undefined && Number.isInteger(id);
     }
 
     public async CheckId(req:any,res:any,next:any){
-        let {id}=req.params;
-        if(id && Number.isInteger(id) && id.trim() !== ''){
-            next();
+        const {id}=req.params;
+        if(this.IdChecker(id)){
+            if(await this.Model.Exists(id)){
+                next();
+            }else{
+                res.status(HttpStatus.BadRequest).json({error:'not exists'});
+            }
         }else{
             res.status(HttpStatus.BadRequest).json({error:'invalid ID'});
         }
     }
+    public CheckBody(isCreate:boolean){
+        const Model=this.Model;
+        return async function(req:any,res:any,next:any){
 
-    public async CheckBody(req:any,res:any,next:any){
-
-        if(await this.Model.Check(req.body)){
-            next();
-        }else{
-            res.status(HttpStatus.BadRequest).json({error:'invalid BODY'});
+            if(await Model.Check(req.body,isCreate)){
+                next();
+            }else{
+                res.status(HttpStatus.BadRequest).json({error:'invalid BODY'});
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import * as uuid from "jsr:@std/uuid";
+
 import { z, ZodTypeAny } from "zod";
 import { BaseModel } from "./base.ts";
 
@@ -11,13 +11,20 @@ interface TData{
     passwordHash:string|null;
 }
 export class User extends BaseModel<string,TData>{
-  protected override get Schema(): ZodTypeAny {
+  
+  protected override get SchemaCreate(): ZodTypeAny {
+    return z.object({});
+  }
+  protected override get SchemaUpdate(): ZodTypeAny {
     return z.object({
         nickname:z.string().min(1),
         name:z.string(),
         pictureFileBase64:z.string().base64(),
         passwordHash:z.string()
     }).superRefine(this.saveFile.bind(this));
+  }
+  public override async CanDoIt(id:string,userId:string){
+        return id === userId;
   }
   public async saveFile(data:any,_:any){
     let binaryData;
