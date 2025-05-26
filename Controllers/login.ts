@@ -1,6 +1,6 @@
-import { ClearToken, GetToken, SetToken } from "../Utils/commonLogin";
-import { HttpStatus } from "../Utils/httpStatusCode";
-import { BasicController } from "./base";
+import { ClearToken, GetToken, SetToken } from "../Utils/commonLogin.ts";
+import { HttpStatus } from "../Utils/httpStatusCode.ts";
+import { BasicController } from "./base.ts";
 import {type Request,type Response} from "express";
 
 

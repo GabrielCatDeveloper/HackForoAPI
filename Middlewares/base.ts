@@ -1,8 +1,8 @@
-// deno-lint-ignore-file no-explicit-any
+// deno-lint-ignore-file no-explicit-any ban-types
 import { type BaseModel } from "../Models/base.ts";
 import { GetToken } from "../Utils/commonLogin.ts";
 import { HttpStatus } from "../Utils/httpStatusCode.ts";
-
+import {type Request,type Response} from "express";
 
 export class BasicMiddlewares{
         public get AsAny() {
@@ -22,6 +22,16 @@ export class BasicMiddlewares{
             return value(...params);
         }
         return value;
+    }
+    public async LoadUser(req:Request,res:Response,next:Function){
+        const token=await GetToken(req);
+        if(token){
+            req.user=token;//como es toda la info que necesito la pongo como si fuese el obj user
+            next();
+        }else{
+            res.status(HttpStatus.Unautoritzed).send();
+        }
+        
     }
 }
 
@@ -63,7 +73,7 @@ export class BaseMiddlewares extends BasicMiddlewares {
         ];
     }
 
-    public async CanDoIt(req:any,res:any,next:any){
+    public async CanDoIt(req:Request,res:Response,next:Function){
         const {userId,isAdmin}=req.user;
         const {id}=req.params;
         
@@ -73,22 +83,13 @@ export class BaseMiddlewares extends BasicMiddlewares {
             res.status(HttpStatus.Unautoritzed).send();
         }
     }
-    public async LoadUser(req:any,res:any,next:any){
-        const token=await GetToken(req);
-        if(token){
-            req.user=token;
-            next();
-        }else{
-            res.status(HttpStatus.Unautoritzed).send();
-        }
-        
-    }
+
 
     public get IdChecker():(id:any)=>boolean{
         return (id:number)=>id!=undefined && Number.isInteger(id);
     }
 
-    public async CheckId(req:any,res:any,next:any){
+    public async CheckId(req:Request,res:Response,next:Function){
         const {id}=req.params;
         if(this.IdChecker(id)){
             if(await this.Model.Exists(id)){
@@ -102,7 +103,7 @@ export class BaseMiddlewares extends BasicMiddlewares {
     }
     public CheckBody(isCreate:boolean){
         const Model=this.Model;
-        return async function(req:any,res:any,next:any){
+        return async function(req:Request,res:Response,next:Function){
 
             if(await Model.Check(req.body,isCreate)){
                 next();

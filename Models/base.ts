@@ -30,11 +30,14 @@ export abstract class BaseModel<TId,TData>{
         return error === undefined;
     }
     public async Exists(id:TId){
-        const total=await this.Model.count({where:{id}});
+        const total=await this.Model.count({where:{[this.IdField]:id}});
         return total>0;
     }
     public get UserFieldCanUpdate(){
         return 'userId';
+    }
+    public get IdField(){
+        return 'id';
     }
     public async CanDoIt(id:TId,userId:string){
         const item=await this.Model.findFirst({where:{id}});
@@ -47,6 +50,9 @@ export abstract class BaseModel<TId,TData>{
     public get CanGetDeleteds(){
         return true;
     }
+    public async GetFirst(where:any){
+        return await this.Model.findFirst({where});
+    }
     public async GetAllById(id?:TId){
 
         const query:any={};
@@ -57,20 +63,20 @@ export abstract class BaseModel<TId,TData>{
             if(!query.where){
                 query.where={};
             }
-            query.where.id=id;
+            query.where[this.IdField]=id;
         }
         return await this.Model.findMany(query);
     }
     public async UpdateById(id:TId,body:TData){
         const {data}=await this.SchemaUpdate.safeParseAsync(body);
-        return await this.Model.update({where:{id},data});
+        return await this.Model.update({where:{[this.IdField]:id},data});
     }
     public async DeleteById(id:TId){
         let res;
         if(this.HasDeletedAt){
-            res= await this.Model.update({where:{id},data:{deletedAt:new Date()}});
+            res= await this.Model.update({where:{[this.IdField]:id},data:{deletedAt:new Date()}});
         }else{
-            res= await this.Model.delete({where:{id}});
+            res= await this.Model.delete({where:{[this.IdField]:id}});
         }
         return res;
     }

@@ -23,9 +23,13 @@ export class User extends BaseModel<string,TData>{
         passwordHash:z.string()
     }).superRefine(this.saveFile.bind(this));
   }
-  public override async CanDoIt(id:string,userId:string){
-        return id === userId;
+  public override get IdField(){
+        return 'nickname';
   }
+  public override CanDoIt(id:string,userId:string){
+        return Promise.resolve(id === userId);
+  }
+  
   public async saveFile(data:any,_:any){
     let binaryData;
     let byteArray;
