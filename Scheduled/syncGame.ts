@@ -1,8 +1,10 @@
 import { join } from "node:path";
 import { BaseScheduled } from "./base.ts";
 import { Get } from "../Utils/git.ts";
+import { load } from "@std/dotenv";
 
 
+const env = await load();
 
 
 export class SyncGame extends BaseScheduled{
@@ -14,7 +16,7 @@ export class SyncGame extends BaseScheduled{
 
     override async getMethod() {
         const PathCampaigns=join(__dirname,'dataGit','campaigns');
-        const url=Deno.env.get("CampaignUrlGit")!;     
+        const url=env.CampaignUrlGit;     
         
         try{
           await Deno.mkdir(PathCampaigns,{recursive:true});

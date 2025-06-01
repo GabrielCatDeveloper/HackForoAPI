@@ -140,3 +140,4 @@ Prisma/.client
 deno.lock
 Uploads/Pictures/*.webp
 Scheduled/dataGit/*
+Prisma/database.db

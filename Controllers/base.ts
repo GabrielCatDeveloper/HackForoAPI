@@ -1,5 +1,5 @@
-import { type BaseModel } from "../Models/base";
-import { HttpStatus } from "../Utils/httpStatusCode";
+import { type BaseModel } from "../Models/base.ts";
+import { HttpStatus } from "../Utils/httpStatusCode.ts";
 
 export class BasicController{
     
@@ -19,7 +19,7 @@ export class BaseController extends BasicController{
 
 
 
-    constructor(public readonly Model:BaseModel){super();}
+    constructor(public readonly Model:BaseModel<any,any>){super();}
 
 
 

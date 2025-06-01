@@ -2,10 +2,11 @@ generator client {
   provider        = "prisma-client"
   output          = "./.client"
   runtime = "deno"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
