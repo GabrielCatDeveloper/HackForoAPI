@@ -1,5 +1,5 @@
 import { z,ZodTypeAny } from "zod";
-import { BaseModel } from "./base.ts";
+import { BaseModel } from "./base";
 
 
 interface TData{

@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any ban-types
-import { type BaseModel } from "../Models/base.ts";
-import { GetToken } from "../Utils/commonLogin.ts";
-import { HttpStatus } from "../Utils/httpStatusCode.ts";
+import { type BaseModel } from "../models/base";
+import { GetToken } from "../utils/commonLogin";
+import { HttpStatus } from "../utils/httpStatusCode";
 import {type Request,type Response} from "express";
 
 export class BasicMiddlewares{

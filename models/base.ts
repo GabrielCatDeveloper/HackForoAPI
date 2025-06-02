@@ -1,8 +1,7 @@
 // deno-lint-ignore-file ban-types no-explicit-any
-import {PrismaClient} from "../Prisma/.client/index.ts";
-import { PrismaBetterSQLite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaClient }  from "../prisma/.client";
 import {z} from "zod";
-import { load } from "@std/dotenv";
+
 
 interface IClient{
     create:Function;
@@ -17,13 +16,9 @@ interface IClient{
 
 
 // Carga las variables de entorno desde el archivo .env
-const env = await load();
 
-const adapter = new PrismaBetterSQLite3({
-  url: env.DATABASE_URL
-});
 
-const Client=new PrismaClient({adapter});
+const Client=new PrismaClient();
 
 export abstract class BaseModel<TId,TData>{
 

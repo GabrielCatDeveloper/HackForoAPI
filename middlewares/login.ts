@@ -1,7 +1,7 @@
 // deno-lint-ignore-file ban-types
-import { default as User } from "../Models/user.ts";
-import { HttpStatus } from "../Utils/httpStatusCode.ts";
-import { BasicMiddlewares } from "./base.ts";
+import { default as User } from "../Models/user";
+import { HttpStatus } from "../Utils/httpStatusCode";
+import { BasicMiddlewares } from "./base";
 
 import {type Request,type Response} from "express";
 

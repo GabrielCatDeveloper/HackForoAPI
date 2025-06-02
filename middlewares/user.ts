@@ -1,5 +1,5 @@
-import User from "../Models/user.ts";
-import { BaseMiddlewares } from "./base.ts";
+import User from "../models/user";
+import { BaseMiddlewares } from "./base";
 
 
 

@@ -1,4 +1,4 @@
-import Routers from "./Routers/index.ts";
+import Routers from "./routers";
 
 
 export class Server{

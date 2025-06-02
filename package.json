@@ -1,0 +1,32 @@
+{
+  "name": "hack-foro-api",
+  "version": "1.0.0",
+  "description": "es una simple API para un juego de rol",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GabrielCatDeveloper/HackForoAPI.git"
+  },
+  "keywords": [
+    "DotHack",
+    "ROLE",
+    "D&D"
+  ],
+  "author": "GabrielCatDeveloper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GabrielCatDeveloper/HackForoAPI/issues"
+  },
+  "homepage": "https://github.com/GabrielCatDeveloper/HackForoAPI#readme",
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "path": "^0.12.7",
+    "prisma": "^6.8.2",
+    "zod": "^3.25.48"
+  }
+}

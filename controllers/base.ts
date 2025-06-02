@@ -1,5 +1,5 @@
-import { type BaseModel } from "../Models/base.ts";
-import { HttpStatus } from "../Utils/httpStatusCode.ts";
+import { type BaseModel } from "../models/base";
+import { HttpStatus } from "../utils/httpStatusCode";
 
 export class BasicController{
     

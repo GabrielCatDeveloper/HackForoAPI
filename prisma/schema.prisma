@@ -1,8 +1,7 @@
 generator client {
-  provider        = "prisma-client"
+  provider        = "prisma-client-js"
   output          = "./.client"
-  runtime = "deno"
-  previewFeatures = ["driverAdapters"]
+
 }
 
 datasource db {

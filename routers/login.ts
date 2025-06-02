@@ -1,5 +1,5 @@
-import { default as Controller } from "../Controllers/login.ts";
-import { default as Middlewares } from "../Middlewares/login.ts";
+import { default as Controller } from "../Controllers/login";
+import { default as Middlewares } from "../Middlewares/login";
 
 
 

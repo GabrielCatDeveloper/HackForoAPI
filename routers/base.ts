@@ -1,5 +1,5 @@
-import { type BaseController } from "../Controllers/base.ts";
-import { BaseMiddlewares } from "../Middlewares/base.ts";
+import { type BaseController } from "../Controllers/base";
+import { BaseMiddlewares } from "../Middlewares/base";
 
 
 

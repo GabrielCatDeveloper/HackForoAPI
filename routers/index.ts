@@ -1,14 +1,14 @@
-import { BaseController } from "../Controllers/base.ts";
-import { BaseMiddlewares } from "../Middlewares/base.ts";
-import { UserMiddlewares } from "../Middlewares/user.ts";
-import Campaign from "../Models/campaign.ts";
-import Message from "../Models/message.ts";
-import Reply from "../Models/reply.ts";
-import ReplyView from "../Models/replyView.ts";
-import Topic from "../Models/topic.ts";
-import User from "../Models/user.ts";
-import { BaseRouter } from "./base.ts";
-import {LoginRouter} from "./login.ts";
+import { BaseController } from "../Controllers/base";
+import { BaseMiddlewares } from "../Middlewares/base";
+import { UserMiddlewares } from "../Middlewares/user";
+import Campaign from "../Models/campaign";
+import Message from "../Models/message";
+import Reply from "../Models/reply";
+import ReplyView from "../Models/replyView";
+import Topic from "../Models/topic";
+import User from "../Models/user";
+import { BaseRouter } from "./base";
+import {LoginRouter} from "./login";
 
 
 

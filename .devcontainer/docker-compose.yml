@@ -1,33 +1,12 @@
 services:
   dev_hack-foro-devcontainer:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:lts
     container_name: hack-foro_devcontainer
     environment:
       - IsLocalSide=true
-    networks:
-      - backend_devcontainer
     volumes:
       - ../:/workspace:rw
     command: sleep infinity
 
-  mariadb_devcontainer:
-    image: mariadb:lts
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=linux
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=linux
-    networks:
-      - backend_devcontainer
-    volumes:
-      - api-mariadb-data_devcontainer:/var/lib/mysql
 
-networks:
-  backend_devcontainer:
-    driver: bridge
-    name: backend_devcontainer
 
-volumes:
-  api-mariadb-data_devcontainer:
