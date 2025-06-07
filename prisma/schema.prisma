@@ -19,6 +19,7 @@ model Campaign {
   deletedAt DateTime?
   topics Topic[]
   users User[]
+  @@map("campaigns")
 }
 
 
@@ -54,6 +55,8 @@ model Topic {
   campaign Campaign @relation(fields:[campaignId],references:[id],onDelete:Cascade)
   name String
   replies Reply[]
+
+  @@map("topics")
   
 }
 
@@ -76,6 +79,8 @@ model Reply {
   children  Reply[]   @relation(name: "childrenReply")
 
   views     ReplyView[]
+
+  @@map("replies")
 }
 
 model ReplyView {
@@ -88,6 +93,7 @@ model ReplyView {
   reply Reply @relation(fields:[replyId],references:[id],onDelete:Cascade)
 
   @@unique([userId,replyId,replyUpdatedAt])
+  @@map("replyViews")
 }
 
 model Message {
@@ -100,4 +106,5 @@ model Message {
   viewedAt DateTime?
   createdAt DateTime @default(now())
   deletedAt DateTime?
+  @@map("messages")
 }
