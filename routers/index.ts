@@ -1,12 +1,12 @@
-import { BaseController } from "../Controllers/base";
-import { BaseMiddlewares } from "../Middlewares/base";
-import { UserMiddlewares } from "../Middlewares/user";
-import Campaign from "../Models/campaign";
-import Message from "../Models/message";
-import Reply from "../Models/reply";
-import ReplyView from "../Models/replyView";
-import Topic from "../Models/topic";
-import User from "../Models/user";
+import { BaseController } from "../controllers/base";
+import { BaseMiddlewares } from "../middlewares/base";
+import { UserMiddlewares } from "../middlewares/user";
+import Campaign from "../models/campaign";
+import Message from "../models/message";
+import Reply from "../models/reply";
+import ReplyView from "../models/replyView";
+import Topic from "../models/topic";
+import User from "../models/user";
 import { BaseRouter } from "./base";
 import {LoginRouter} from "./login";
 

@@ -4,7 +4,7 @@
   "description": "es una simple API para un juego de rol",
   "main": "app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx ts-node --transpile-only app.ts"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/GabrielCatDeveloper/HackForoAPI#readme",
   "dependencies": {
     "@prisma/client": "^6.8.2",
+    "chai": "^5.2.0",
     "esbuild-register": "^3.6.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
@@ -31,6 +32,7 @@
     "prisma": "^6.8.2",
     "ts-mocha": "^11.1.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "zod": "^3.25.56"
   },
   "devDependencies": {

@@ -11,6 +11,7 @@ export class Server{
     Configure(){
         for(let router of Routers){
             console.info(`${router.UrlRel}`);
+            router.Configure(Express.Router())
             this.app.use(router.UrlRel, router.Router as Express.Router);
         }
     }

@@ -1,5 +1,5 @@
-import { ClearToken, GetToken, SetToken } from "../Utils/commonLogin";
-import { HttpStatus } from "../Utils/httpStatusCode";
+import { ClearToken, GetToken, SetToken } from "../utils/commonLogin";
+import { HttpStatus } from "../utils/httpStatusCode";
 import { BasicController } from "./base";
 import {type Request,type Response} from "express";
 

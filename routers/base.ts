@@ -1,5 +1,5 @@
-import { type BaseController } from "../Controllers/base";
-import { BaseMiddlewares } from "../Middlewares/base";
+import { type BaseController } from "../controllers/base";
+import { BaseMiddlewares } from "../middlewares/base";
 
 
 
@@ -16,7 +16,9 @@ export class BaseRouter {
         {
             this.UrlRel='/'+this.UrlRel;
         }
-        this.Configure(router);
+        if(router){
+            this.Configure(router);
+        }
     }
     Configure(router?:any){
 

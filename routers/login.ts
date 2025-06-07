@@ -1,5 +1,5 @@
-import { default as Controller } from "../Controllers/login";
-import { default as Middlewares } from "../Middlewares/login";
+import { default as Controller } from "../controllers/login";
+import { default as Middlewares } from "../middlewares/login";
 
 
 
@@ -7,7 +7,9 @@ import { default as Middlewares } from "../Middlewares/login";
 export class LoginRouter {
 
     constructor(private router?:any){
-        this.Configure(router);
+        if(router){
+            this.Configure(router);
+        }
     }
     Configure(router?:any){
 
