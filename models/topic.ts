@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { z , ZodTypeAny } from "zod";
 import { BaseModel } from "./base";
+import reply from "./reply";
 
 interface TData{
     name:string;
@@ -30,6 +31,14 @@ export class Topic extends BaseModel<number,TData>{
     }else if(data.canAdd){
         data.deletedAt=null;
     }
+  }
+
+  public override getInclude(userId:string):undefined|any{
+    return {
+      replies:{
+        include:reply.getInclude(userId)
+      }
+    };
   }
 
 }

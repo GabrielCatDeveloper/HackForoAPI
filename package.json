@@ -23,10 +23,17 @@
   "homepage": "https://github.com/GabrielCatDeveloper/HackForoAPI#readme",
   "dependencies": {
     "@prisma/client": "^6.8.2",
+    "esbuild-register": "^3.6.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mocha": "^11.5.0",
     "path": "^0.12.7",
     "prisma": "^6.8.2",
+    "ts-mocha": "^11.1.0",
+    "ts-node": "^10.9.2",
     "zod": "^3.25.56"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10"
   }
 }

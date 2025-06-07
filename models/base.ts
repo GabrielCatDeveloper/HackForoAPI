@@ -59,9 +59,12 @@ export abstract class BaseModel<TId,TData>{
     public async GetFirst(where:any){
         return await this.Model.findFirst({where});
     }
-    public async GetAllById(id?:TId){
+    public getInclude(userId:string):undefined|any{
+        return undefined;
+    }
+    public async GetAllById(userId:string,id?:TId){
 
-        const query:any={};
+        const query:any={include:this.getInclude(userId)};
         if(this.HasDeletedAt && !this.CanGetDeleteds){
             query.where={deletedAt:null};
         }
@@ -78,7 +81,7 @@ export abstract class BaseModel<TId,TData>{
         return await this.Model.update({where:{[this.IdField]:id},data});
     }
     public async DeleteById(id:TId){
-        let res;
+        let res:any;
         if(this.HasDeletedAt){
             res= await this.Model.update({where:{[this.IdField]:id},data:{deletedAt:new Date()}});
         }else{

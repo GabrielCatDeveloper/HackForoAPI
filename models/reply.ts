@@ -1,5 +1,6 @@
 import { z,ZodTypeAny } from "zod";
 import { BaseModel } from "./base";
+import replyView from "./replyView";
 
 
 interface TData{
@@ -20,6 +21,14 @@ export class Reply extends BaseModel<number,TData>{
         title:z.string().optional(),
         message:z.string().optional(),
     });
+  }
+
+  public override getInclude(userId: string) {
+    return {
+
+        views:replyView.getInclude(userId)
+      
+    }
   }
 
 }

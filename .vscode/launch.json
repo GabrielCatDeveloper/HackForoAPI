@@ -20,6 +20,29 @@
                 "--allow-all"
             ],
             "attachSimplePort": 9229
-        }
+        },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Mocha Test (Current File)",
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"],
+      "program": "${workspaceFolder}/node_modules/.bin/ts-mocha",
+      "args": [
+        "--timeout",
+        "999999",
+        "--colors",
+        "--require",
+        "esbuild-register",
+        "${file}",
+        "--exit"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "env": {
+        "TS_NODE_PROJECT": "tsconfig.json"
+      },
+      "sourceMaps": true,
+      "cwd": "${workspaceFolder}"
+    }
     ]
 }

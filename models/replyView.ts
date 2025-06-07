@@ -30,6 +30,12 @@ export class ReplyView extends BaseModel<number,TData>{
       });
     }
   }
+    public override getInclude(userId: string) {
+    return {
+        where:{userId},
+        select:{createdAt:true,replyUpdatedAt:true}
+    }
+  }
 
 }
 

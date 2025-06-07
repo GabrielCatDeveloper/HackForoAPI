@@ -2,6 +2,7 @@
 
 import { z, ZodTypeAny } from "zod";
 import { BaseModel } from "./base";
+import { default as Topic } from "./topic";
 
 
 //su creación/ edición se hace con el github
@@ -14,6 +15,13 @@ export class Campaign extends BaseModel<number,any>{
   }
   public async CanDoIt(_1:number,_2:string){
       return false;
+  }
+  public override getInclude(userId: string) {
+    return {
+      topics:{
+        include:Topic.getInclude(userId)
+      }
+    }
   }
 }
 
