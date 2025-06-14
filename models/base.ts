@@ -49,7 +49,7 @@ export abstract class BaseModel<TId,TData>{
         const item=await this.Model.findFirst({where:{id}});
         return item[this.UserFieldCanUpdate] === userId;
     }
-    public async Create(body:TData){
+    public async Create(body:Partial<TData>){
         const {data}=await this.SchemaCreate.safeParseAsync(body);
         return await this.Model.create({data});
     }

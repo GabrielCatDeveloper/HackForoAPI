@@ -2,7 +2,8 @@
 
 import { z, ZodTypeAny } from "zod";
 import { BaseModel } from "./base";
-
+import { createHash } from 'crypto';
+import { writeFile } from 'fs/promises';
 
 interface TData{
     nickname:string;
@@ -31,21 +32,27 @@ export class User extends BaseModel<string,TData>{
   }
   
   public async saveFile(data:any,_:any){
-    let binaryData;
-    let byteArray;
+    let filePath;
     const {pictureFileBase64}=data;
     if(pictureFileBase64){
         data.pictureFileId=crypto.randomUUID();
-        // Decodificar base64 a bytes
-        binaryData = atob(pictureFileBase64);
+        filePath=`../uploads/pictures/${data.pictureFileId}.webp`;
+      try {
+        // Decodificar el base64 a un buffer
+        const buffer = Buffer.from(data.pictureFileBase64, 'base64');
 
-        // Convertir a Uint8Array
-        byteArray = new Uint8Array(binaryData.length);
-        for (let i = 0; i < binaryData.length; i++) {
-            byteArray[i] = binaryData.charCodeAt(i);
-        }
-        await Deno.writeFile(`../Uploads/Pictures/${data.pictureFileId}.webp`,byteArray,{createNew:true});
+        // Guardar el archivo
+        await writeFile(filePath, buffer);
+
+      } catch (error) {
+        console.error('Error saving file:', error);
+        throw new Error('Failed to save file');
+      }
     }
+  }
+
+  encryptPassword(input: string): string {
+    return createHash('sha512').update(input).digest('hex');
   }
 
 }
