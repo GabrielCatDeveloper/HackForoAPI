@@ -51,13 +51,13 @@ export abstract class BaseModel<TId,TData>{
     }
     public async Create(body:Partial<TData>){
         const {data}=await this.SchemaCreate.safeParseAsync(body);
-        return await this.Model.create({data});
+        return await this.Model.create({data}) as TData;
     }
     public get CanGetDeleteds(){
         return true;
     }
     public async GetFirst(where:any){
-        return await this.Model.findFirst({where});
+        return await this.Model.findFirst({where}) as TData;
     }
     public getInclude(userId:string):undefined|any{
         return undefined;

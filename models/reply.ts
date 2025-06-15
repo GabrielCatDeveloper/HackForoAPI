@@ -1,12 +1,10 @@
 import { z,ZodTypeAny } from "zod";
 import { BaseModel } from "./base";
 import replyView from "./replyView";
+import { ReplyBD } from "../prisma/.client";
 
 
-interface TData{
-    id:number;
-}
-export class Reply extends BaseModel<number,TData>{
+export class Reply extends BaseModel<number,ReplyBD>{
   protected override get SchemaCreate(): ZodTypeAny {
     return z.object({
         topicId:z.number(),
