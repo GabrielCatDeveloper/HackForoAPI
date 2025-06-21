@@ -4,14 +4,9 @@ import { z, ZodTypeAny } from "zod";
 import { BaseModel } from "./base";
 import { createHash } from 'crypto';
 import { writeFile } from 'fs/promises';
+import { UserBD } from "../prisma/.client";
 
-interface TData{
-    nickname:string;
-    name:string;
-    pictureFileId:string|null;
-    passwordHash:string|null;
-}
-export class User extends BaseModel<string,TData>{
+export class User extends BaseModel<string,UserBD>{
   
   protected override get SchemaCreate(): ZodTypeAny {
     return z.object({});

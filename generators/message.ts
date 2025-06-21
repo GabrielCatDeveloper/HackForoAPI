@@ -5,13 +5,8 @@ import { default as Message } from "../models/message";
 
 
 
-export async function GenerateMessage({userFromId,message,userToId}:{userFromId?:string,userToId?:string,message?:string}) {
-    if(!userFromId){
-        userFromId=await GenerateUser().then(r=>r.nickname);
-    }
-    if(!userToId){
-        userToId=await GenerateUser().then(r=>r.nickname);
-    }
+export async function GenerateMessage({userFromId,message,userToId}:{userFromId:string,userToId:string,message?:string}) {
+
     if(!message){
         message=faker.animal.cat()
     }

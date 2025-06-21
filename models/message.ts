@@ -1,14 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
 import { z, ZodTypeAny } from "zod";
 import { BaseModel } from "./base";
+import { MessageBD } from "../prisma/.client";
 
 
-interface TData{
-    userFromId:string;
-    userToId:string;
-    message:string;
-}
-export class Message extends BaseModel<number,TData>{
+export class Message extends BaseModel<number,MessageBD>{
 
   protected override get SchemaCreate(): ZodTypeAny {
     return z.object({

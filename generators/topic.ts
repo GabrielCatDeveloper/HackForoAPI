@@ -10,7 +10,7 @@ export async function GenerateTopic(campaignId?:number,userId?:string){
         campaignId=await GenerateCampagn().then(r=>r.id);
     }
     if(!userId){
-        userId=await GenerateUser().then(r=>r.nickname);
+        userId=await GenerateUser(campaignId!).then(r=>r.nickname);
     }
     return Topic.Create({
         campaignId,
