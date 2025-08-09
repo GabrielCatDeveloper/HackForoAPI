@@ -19,7 +19,9 @@ export class Reply extends BaseModel<number,ReplyBD>{
         message:z.string().optional(),
     });
   }
-
+  public get ParentIdField():keyof ReplyBD|undefined{
+      return 'topicId';
+  }
   public override getInclude(userId: string) {
     return {
 

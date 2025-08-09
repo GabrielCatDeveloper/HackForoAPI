@@ -31,6 +31,9 @@ export class User extends BasicModel<string,TIn,UserBD>{
   public override get IdField(){
         return 'nickname';
   }
+  public get ParentIdField():keyof UserBD|undefined{
+      return 'campaignId';
+  }
   public override CanDoIt(id:string,userId:string){
         return Promise.resolve(id === userId);
   }

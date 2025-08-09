@@ -63,7 +63,12 @@ describe("User",()=>{
 
 
 
-
+        describe("GetAll",()=>{
+            it("Should get all",async()=>{
+                const users=await User.GetAllById(userId,campaingId);
+                expect(users.length).to.be.greaterThan(0);
+            });
+        });
 
 
 

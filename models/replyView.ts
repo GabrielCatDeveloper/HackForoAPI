@@ -20,7 +20,9 @@ export class ReplyView extends BaseModel<number,TData>{
   protected override get SchemaUpdate(): ZodTypeAny {
     return z.object({});
   }
-
+  public get ParentIdField():keyof TData|undefined{
+      return 'replyId';
+  }
   async notExists(data:any,ctx:any){
     const item=await this.Model.findFirst({where:data});
     if(item){

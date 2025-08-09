@@ -30,7 +30,9 @@ export class Topic extends BaseModel<number,TopicBD>{
       }
     }
   }
-
+  public get ParentIdField():keyof TopicBD|undefined{
+      return 'campaignId';
+  }
   public override getInclude(userId:string):undefined|any{
     return {
       replies:{

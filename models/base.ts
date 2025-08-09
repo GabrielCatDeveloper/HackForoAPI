@@ -64,6 +64,9 @@ export abstract class BasicModel<TId,TIn,TOut>{
     public get IdField(){
         return 'id';
     }
+    public get ParentIdField():keyof TOut|undefined{
+        return undefined;
+    }
     public async CanDoIt(id:TId,userId:string){
         const item=await this.Model.findFirst({where:{id}});
         return item[this.UserFieldCanUpdate] === userId;
@@ -82,17 +85,17 @@ export abstract class BasicModel<TId,TIn,TOut>{
     public getInclude(userId:string):undefined|any{
         return undefined;
     }
-    public async GetAllById(userId:string,id?:TId){
+    public async GetAllById(userId:string,parentId?:number){
 
         const query:any={include:this.getInclude(userId)};
         if(this.HasDeletedAt && !this.CanGetDeleteds){
             query.where={deletedAt:null};
         }
-        if(id){
+        if(parentId && this.ParentIdField){
             if(!query.where){
                 query.where={};
             }
-            query.where[this.IdField]=id;
+            query.where[this.ParentIdField]=parentId;
         }
         return this.Model.findMany(query);
     }
