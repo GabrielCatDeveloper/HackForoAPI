@@ -1,12 +1,15 @@
 // deno-lint-ignore-file no-explicit-any
 
 import { z, ZodTypeAny } from "zod";
-import { BaseModel } from "./base";
+import { BasicModel, ToTIn } from "./base";
 import { createHash } from 'crypto';
 import { writeFile } from 'fs/promises';
 import { UserBD } from "../prisma/.client";
+import path from "path";
 
-export class User extends BaseModel<string,UserBD>{
+
+type TIn=ToTIn<Omit<UserBD,'pictureFileId'>&{pictureFileBase64:string}>;
+export class User extends BasicModel<string,TIn,UserBD>{
   
   protected override get SchemaCreate(): ZodTypeAny {
     return z.object({
@@ -32,22 +35,31 @@ export class User extends BaseModel<string,UserBD>{
         return Promise.resolve(id === userId);
   }
   
-  public async saveFile(data:any,_:any){
+  public async saveFile(data:any,ctx:any){
     let filePath;
-    const {pictureFileBase64}=data;
+    let buffer;
+    let cleanBase64;
+    const {pictureFileBase64}=data as TIn;
+
     if(pictureFileBase64){
         data.pictureFileId=crypto.randomUUID();
-        filePath=`../uploads/pictures/${data.pictureFileId}.webp`;
+        delete data.pictureFileBase64;
+        filePath=path.join(__dirname,`../uploads/pictures/${data.pictureFileId}.webp`);
       try {
+        cleanBase64 = pictureFileBase64.replace(/^data:[^;]+;base64,/, '');
         // Decodificar el base64 a un buffer
-        const buffer = Buffer.from(data.pictureFileBase64, 'base64');
+        buffer = Buffer.from(cleanBase64, 'base64');
 
         // Guardar el archivo
         await writeFile(filePath, buffer);
 
       } catch (error) {
         console.error('Error saving file:', error);
-        throw new Error('Failed to save file');
+        ctx.addIssue({
+            code:z.ZodIssueCode.custom,
+            path:['User','pictureFileBase64'],
+            message:`Error saving file`,
+        });
       }
     }
   }

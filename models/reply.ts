@@ -3,7 +3,6 @@ import { BaseModel } from "./base";
 import replyView from "./replyView";
 import { ReplyBD } from "../prisma/.client";
 
-
 export class Reply extends BaseModel<number,ReplyBD>{
   protected override get SchemaCreate(): ZodTypeAny {
     return z.object({

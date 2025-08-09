@@ -5,7 +5,6 @@ import { BaseModel } from "./base";
 import { default as Topic } from "./topic";
 import { CampaignBD } from "../prisma/.client";
 
-
 //su creación/ edición se hace con el github
 export class Campaign extends BaseModel<number,CampaignBD>{
   protected override get SchemaCreate(): ZodTypeAny {

@@ -1,6 +1,6 @@
 // deno-lint-ignore-file ban-types no-explicit-any
 import { PrismaClient }  from "../prisma/.client";
-import {z} from "zod";
+import {any, z} from "zod";
 
 
 interface IClient{
@@ -14,6 +14,21 @@ interface IClient{
 
 }
 
+interface TAvoid{
+    id:string,
+    createdAt:Date,
+    deletedAt:Date|null,
+    updatedAt:Date|null
+};
+
+
+
+export type ToTIn<T>={
+    [key in keyof T as key extends keyof TAvoid ? never : key]: T[key];
+};
+
+
+type ToWhere<T>=Partial<T&Record<string,any>>;
 
 // Carga las variables de entorno desde el archivo .env
 
@@ -22,7 +37,7 @@ const Client=new PrismaClient();
 
 Client.campaignBD
 
-export abstract class BaseModel<TId,TData>{
+export abstract class BasicModel<TId,TIn,TOut>{
 
     protected abstract get SchemaCreate():z.ZodTypeAny;
     protected abstract get SchemaUpdate():z.ZodTypeAny;
@@ -35,7 +50,7 @@ export abstract class BaseModel<TId,TData>{
         return 'deletedAt' in this.Model.fields;
     }
 
-    public async Check(body:TData,isCreate:boolean):Promise<boolean>{
+    public async Check(body:TOut,isCreate:boolean):Promise<boolean>{
         const {error}=await (isCreate?this.SchemaCreate:this.SchemaUpdate).safeParseAsync(body);
         return error === undefined;
     }
@@ -53,16 +68,16 @@ export abstract class BaseModel<TId,TData>{
         const item=await this.Model.findFirst({where:{id}});
         return item[this.UserFieldCanUpdate] === userId;
     }
-    public async Create(body:Partial<TData>){
+    public async Create(body:Partial<TIn>){
         const {data}=await this.SchemaCreate.safeParseAsync(body);
-        const res=await this.Model.create({data}) as TData;
+        const res=await this.Model.create({data}) as TOut;
         return res;
     }
     public get CanGetDeleteds(){
         return true;
     }
-    public async GetFirst(where:any){
-        return await this.Model.findFirst({where}) as TData;
+    public async GetFirst(where:ToWhere<TOut>,include?:Record<string,boolean>):Promise<TOut|null>{
+        return this.Model.findFirst({where,include}) as TOut;
     }
     public getInclude(userId:string):undefined|any{
         return undefined;
@@ -81,7 +96,7 @@ export abstract class BaseModel<TId,TData>{
         }
         return this.Model.findMany(query);
     }
-    public async UpdateById(id:TId,body:Partial<TData>):Promise<TData>{
+    public async UpdateById(id:TId,body:Partial<TIn>):Promise<TOut>{
         const {data}=await this.SchemaUpdate.safeParseAsync(body);
         return  this.Model.update({where:{[this.IdField]:id},data});
     }
@@ -96,3 +111,5 @@ export abstract class BaseModel<TId,TData>{
     }
 
 }
+
+export abstract class BaseModel<TId,TOut> extends BasicModel<TId,ToTIn<TOut>,TOut>{}
