@@ -35,7 +35,7 @@ model UserBD {
   deletedAt DateTime?
   topics TopicBD[]
   replies ReplyBD[]
-  replieViews ReplyBDView[]
+  replieViews ReplyViewBD[]
   campaignId Int 
   campaign CampaignBD @relation(fields:[campaignId],references:[id],onDelete:Cascade)
   messagesSended MessageBD[] @relation(name:"messagesSended")
@@ -78,12 +78,12 @@ model ReplyBD {
   parent    ReplyBD?    @relation(name: "childrenReplyBD", fields: [parentId], references: [id], onDelete: SetNull)
   children  ReplyBD[]   @relation(name: "childrenReplyBD")
 
-  views     ReplyBDView[]
+  views     ReplyViewBD[]
 
   @@map("replies")
 }
 
-model ReplyBDView {
+model ReplyViewBD {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   replyUpdatedAt DateTime

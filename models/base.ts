@@ -20,12 +20,16 @@ interface IClient{
 
 const Client=new PrismaClient();
 
+Client.campaignBD
+
 export abstract class BaseModel<TId,TData>{
 
     protected abstract get SchemaCreate():z.ZodTypeAny;
     protected abstract get SchemaUpdate():z.ZodTypeAny;
     protected get Model(){
-        return Client[this.constructor.name.toLocaleLowerCase() as any] as unknown as IClient;
+        let name:string=this.constructor.name;
+        name=name[0].toLocaleLowerCase()+name.substring(1)+'BD';
+        return Client[name as any] as unknown as IClient;
     }
     public get HasDeletedAt():boolean{
         return 'deletedAt' in this.Model.fields;
@@ -51,7 +55,8 @@ export abstract class BaseModel<TId,TData>{
     }
     public async Create(body:Partial<TData>){
         const {data}=await this.SchemaCreate.safeParseAsync(body);
-        return await this.Model.create({data}) as TData;
+        const res=await this.Model.create({data}) as TData;
+        return res;
     }
     public get CanGetDeleteds(){
         return true;
@@ -74,11 +79,11 @@ export abstract class BaseModel<TId,TData>{
             }
             query.where[this.IdField]=id;
         }
-        return await this.Model.findMany(query);
+        return this.Model.findMany(query);
     }
-    public async UpdateById(id:TId,body:TData){
+    public async UpdateById(id:TId,body:Partial<TData>):Promise<TData>{
         const {data}=await this.SchemaUpdate.safeParseAsync(body);
-        return await this.Model.update({where:{[this.IdField]:id},data});
+        return  this.Model.update({where:{[this.IdField]:id},data});
     }
     public async DeleteById(id:TId){
         let res:any;

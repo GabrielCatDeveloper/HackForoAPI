@@ -9,10 +9,10 @@ import { CampaignBD } from "../prisma/.client";
 //su creación/ edición se hace con el github
 export class Campaign extends BaseModel<number,CampaignBD>{
   protected override get SchemaCreate(): ZodTypeAny {
-    return z.object({});
+    return z.object({accessToken:z.string().nullable()});
   }
   protected override get SchemaUpdate(): ZodTypeAny {
-    return z.object({});
+    return this.SchemaCreate;
   }
   public async CanDoIt(_1:number,_2:string){
       return false;

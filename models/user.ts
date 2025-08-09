@@ -9,14 +9,20 @@ import { UserBD } from "../prisma/.client";
 export class User extends BaseModel<string,UserBD>{
   
   protected override get SchemaCreate(): ZodTypeAny {
-    return z.object({});
+    return z.object({
+        campaignId:z.number(),
+        nickname:z.string().min(1),
+        name:z.string(),
+        pictureFileBase64:z.string().base64().optional(),
+        passwordHash:z.string()
+    }).superRefine(this.saveFile.bind(this));
   }
   protected override get SchemaUpdate(): ZodTypeAny {
     return z.object({
-        nickname:z.string().min(1),
-        name:z.string(),
-        pictureFileBase64:z.string().base64(),
-        passwordHash:z.string()
+        nickname:z.string().min(1).optional(),
+        name:z.string().optional(),
+        pictureFileBase64:z.string().base64().optional(),
+        passwordHash:z.string().optional()
     }).superRefine(this.saveFile.bind(this));
   }
   public override get IdField(){
