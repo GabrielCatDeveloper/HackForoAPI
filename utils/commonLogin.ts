@@ -8,11 +8,24 @@ import * as jwt from 'jsonwebtoken';
 
 const LoginCookie='token';
 
-type TokenData={nickname:string,isAdmin:boolean,campaignId:number};
+export type TokenData={nickname:string,isAdmin:boolean,campaignId:number};
 const JWT_ALGORITHM = "HS256";
 
-export async function SetToken(data:TokenData,res:any){
+export async function GenToken(data:TokenData){
     
+    const expiresInHours=24*365;
+
+    const payload = {
+        ...data,
+        exp: new Date(Date.now() + 1000 * 60 * expiresInHours), 
+    };
+    const token= jwt.sign({ alg: JWT_ALGORITHM, typ: "JWT" },process.env.JwtSecret, payload);
+    return token;
+
+}
+
+
+export async function SetToken(data:TokenData,res:any){
     const expiresInHours=24*365;
     const options= {
             sameSite:'None',
@@ -20,12 +33,7 @@ export async function SetToken(data:TokenData,res:any){
             maxAge:1000*60*60*expiresInHours,
             secure:true
     };
-    const payload = {
-        ...data,
-        exp: new Date(Date.now() + 1000 * 60 * expiresInHours), 
-    };
-    const token= jwt.sign({ alg: JWT_ALGORITHM, typ: "JWT" },process.env.JwtSecret, payload);
-    res.cookie(LoginCookie, token, options);
+    res.cookie(LoginCookie,await GetToken(data), options);
 
 }
 

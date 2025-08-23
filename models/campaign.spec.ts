@@ -38,6 +38,8 @@ describe("Campaign",()=>{
         expect(reply.message).to.be.equals(MESSAGE);
         topic=await Topic.UpdateById(topics[0].id,{name:NAME});
         expect(topic.name).to.be.equals(NAME);
+        let res=await Topic.GetAllById(users.find(r=>r.campaignId==campagn.id)!.nickname,campagn.id);
+
 
     });
 

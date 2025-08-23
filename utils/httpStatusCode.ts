@@ -6,4 +6,5 @@ export enum HttpStatus{
     BadRequest=400,
     Unautoritzed=401,
     NotFound=404,
+    Redirect=308,
 }

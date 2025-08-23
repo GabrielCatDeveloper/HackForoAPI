@@ -23,7 +23,7 @@ export class LoginController extends BasicController{
 
 
     public async Delete(_: Request, res: Response) {
-        await ClearToken(res);
+        ClearToken(res);
         res.status(HttpStatus.Success).send();
     }
 
