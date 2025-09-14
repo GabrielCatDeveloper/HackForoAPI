@@ -1,5 +1,6 @@
 import { type BaseController } from "../controllers/base";
 import { BaseMiddlewares } from "../middlewares/base";
+import { ControllerMethod, IRouter, MiddlewareMethod } from "../utils/router";
 
 
 
@@ -10,7 +11,7 @@ export class BaseRouter {
         public readonly UrlRel:string, 
         public readonly Middlewares:BaseMiddlewares,
         public readonly Controller:BaseController,
-        private router?:any,
+        private router?:IRouter,
     ){
         if(!this.UrlRel.startsWith('/'))
         {
@@ -20,7 +21,7 @@ export class BaseRouter {
             this.Configure(router);
         }
     }
-    Configure(router?:any){
+    Configure(router?:IRouter){
 
         if(router){
             this.router=router;

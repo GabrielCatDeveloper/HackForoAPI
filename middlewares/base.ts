@@ -24,7 +24,7 @@ export class BasicMiddlewares{
         return value;
     }
     public async LoadUser(req:Request,res:Response,next:Function){
-        const token=await GetToken(req);
+        const token=await GetToken(req).catch(()=>{});
         if(token){
             req.user=token;//como es toda la info que necesito la pongo como si fuese el obj user
             next();

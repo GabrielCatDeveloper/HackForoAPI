@@ -39,6 +39,7 @@
     "@faker-js/faker": "^9.8.0",
     "@types/chai": "^5.2.2",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/mocha": "^10.0.10"
   }
 }

@@ -1,21 +1,24 @@
 import { default as Controller } from "../controllers/login";
 import { default as Middlewares } from "../middlewares/login";
+import { IRouter } from "../utils/router";
 
 
 
 
 export class LoginRouter {
 
-    constructor(private router?:any){
+    constructor(private router?:IRouter){
         if(router){
             this.Configure(router);
         }
     }
-    Configure(router?:any){
+    Configure(router?:IRouter){
 
         if(router){
             this.router=router;
         }
+
+        if(!this.router)throw new Error("Router is required!");
 
         this.Router.get(this.PathGeneric,Middlewares.GetValue("Get"),Controller.GetMethod("Get"));
         this.Router.post(this.PathGeneric,Middlewares.GetValue("Post"),Controller.GetMethod("Post"));
@@ -29,7 +32,7 @@ export class LoginRouter {
     }
 
     public get Router(){
-        return this.router;
+        return this.router!;
     }
     
     public get PathGeneric(){
@@ -38,3 +41,4 @@ export class LoginRouter {
     
 }
 
+export default new LoginRouter();

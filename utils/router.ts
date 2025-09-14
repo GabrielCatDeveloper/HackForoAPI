@@ -1,9 +1,10 @@
+import { BaseRouter } from "../routers/base";
 import { TokenData } from "./commonLogin";
 import {  Middleware, Response, ResponseMiddlewares } from "./middleware";
 
 
-type ControllerMethod=(req:any,res:any)=>Promise<void>;
-type MiddlewareMethod=(req:any,res:any,next:()=>Promise<void>|void)=>Promise<void>;
+export type ControllerMethod=(req:any,res:any)=>Promise<void>;
+export type MiddlewareMethod=(req:any,res:any,next:()=>Promise<void>|void)=>Promise<void>;
 
 export interface ResponseRun {
     Status:number;
@@ -111,5 +112,21 @@ export class RouterTest {
         return {Status:response.result?.status,Data:response.result?.data,middlewares:response};
     }
 
+    static Config(router:{Configure:(router:IRouter)=>void}){
+        const res=new RouterTest();
+        router.Configure(res);
+        return res;
+    }
 
+
+}
+
+
+type RouterItem=(path:string,middlewares:MiddlewareMethod[],controller:ControllerMethod)=>void;
+export interface IRouter{
+    get:RouterItem;
+    post:RouterItem;
+    put:RouterItem;
+    patch:RouterItem;
+    delete:RouterItem;
 }

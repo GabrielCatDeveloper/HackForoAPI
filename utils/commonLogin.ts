@@ -11,15 +11,15 @@ const LoginCookie='token';
 export type TokenData={nickname:string,isAdmin:boolean,campaignId:number};
 const JWT_ALGORITHM = "HS256";
 
-export async function GenToken(data:TokenData){
+export async function GenToken(data:TokenData,expiresInHours=24*365){
     
-    const expiresInHours=24*365;
-
     const payload = {
         ...data,
-        exp: new Date(Date.now() + 1000 * 60 * expiresInHours), 
+        exp: Math.floor(Date.now() / 1000) + 60 * 60 * expiresInHours, 
     };
-    const token= jwt.sign({ alg: JWT_ALGORITHM, typ: "JWT" },process.env.JwtSecret, payload);
+    const token = jwt.sign(payload, process.env.JwtSecret!, {
+        algorithm: JWT_ALGORITHM,
+    });
     return token;
 
 }
@@ -44,7 +44,7 @@ export function ClearToken(res:any){
 }
 
 export async function GetToken(req:any):Promise<TokenData|undefined>{
-    const token= req.cookies[LoginCookie];
+    const token= GetTokenStr(req);
     return  new Promise((resolve, reject) => {
         
         jwt.verify(token,process.env.JwtSecret, (err:any, decoded:any) => { 
@@ -56,4 +56,9 @@ export async function GetToken(req:any):Promise<TokenData|undefined>{
             }
         });
     });
+}
+
+export function GetTokenStr(req:any):string{
+    const token= req.cookies[LoginCookie];
+    return  token;
 }
