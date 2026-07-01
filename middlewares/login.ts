@@ -2,36 +2,25 @@
 import { default as User } from "../models/user";
 import { HttpStatus } from "../utils/httpStatusCode";
 import { BasicMiddlewares } from "./base";
-
 import {type Request,type Response} from "express";
 
-
-
 export class LoginMiddlewares extends BasicMiddlewares{
-
-
-
     public get Get(){
         return [this.GetMethod("LoadUser")];
     }
-
     public get Post(){
         return [this.GetMethod("CheckLogin")];
     }
-
-    
     public get Delete(){
         return [this.GetMethod("LoadUser")];
     }
-
-    
     async CheckLogin(req:Request,res:Response,next:Function){
-        const {nickname,passwordHash,campagneId}=req.body??{};
+        const {nickname,passwordHash,campaignId}=req.body??{};
         let user;
-        if(!nickname || passwordHash || campagneId){
+        if(!nickname || !passwordHash || !campaignId){
             res.status(HttpStatus.BadRequest).send();
         }else{
-            user=await User.GetFirst({nickname,passwordHash,campagneId});
+            user=await User.GetFirst({nickname,passwordHash,campaignId});
             if(user){
                 req.user=user;
                 next();
@@ -40,10 +29,5 @@ export class LoginMiddlewares extends BasicMiddlewares{
             }
         }
     }
-
-
-
-
 }
-
 export default new LoginMiddlewares();

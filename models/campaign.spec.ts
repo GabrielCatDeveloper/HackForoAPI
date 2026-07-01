@@ -5,16 +5,12 @@ import { GenerateFullCampagn } from "../generators/campagn";
 import  Message  from "./message";
 import  Reply  from "./reply";
 import  Topic  from "./topic";
-
-
 describe("Campaign",()=>{
-
     it("Should get include ok",()=>{
         const include=Campaign.getInclude("sora13");
         expect(include?.topics?.include?.replies?.include?.views).to.be.not.undefined;
     });
-
-    it.only("should generate all campaign",async()=>{
+    it("should generate all campaign",async()=>{
         const {
             campaign,
             messages,
@@ -39,10 +35,5 @@ describe("Campaign",()=>{
         topic=await Topic.UpdateById(topics[0].id,{name:NAME});
         expect(topic.name).to.be.equals(NAME);
         let res=await Topic.GetAllById(users.find(r=>r.campaignId==campagn.id)!.nickname,campagn.id);
-
-
     });
-
-
-
 });

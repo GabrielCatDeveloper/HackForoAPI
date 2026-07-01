@@ -8,3 +8,4 @@ prisma/database.db-journal
 .env
 node_modules
 package-lock.json
+proyecto.txt
